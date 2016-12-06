@@ -42,11 +42,10 @@ object MyModule {
 
     @annotation.tailrec
     def sub(n: Int, a: Int, b: Int): Int = {
-      if(n > 2) {
-        sub(n - 1, b, a+b)
-      } else if (n==1) FIRST
-        else if (n==0) ZERO
-      else a + b
+      if(n > 1) {
+        sub(n - 1, b, a+b )
+      } else if (n==1) b
+        else ZERO
     }
 
     sub(n, ZERO, FIRST)
@@ -158,8 +157,7 @@ object PolymorphicFunctions {
   def isSorted[A](as: Array[A], gt: (A,A) => Boolean): Boolean = {
     @annotation.tailrec
     def scan(n: Int): Boolean ={
-      if(as.length <= 1) true
-      else if (n == as.length -1 ) true
+      if (as.length -n <= 1) true
       else if (gt(as(n),as(n+1))) scan(n+1)
       else false
     }

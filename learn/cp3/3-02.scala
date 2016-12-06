@@ -17,23 +17,22 @@ object List{
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
 
+  // そのままNilを返すパターン
   def tail[A](list: List[A]): List[A] = list match {
-    case Nil => sys.error("This list is Nil.")
-    case Cons(_, tail) => tail
+    case Nil => Nil
+    case Cons(_, t) => t
   }
 
-  def drop[A](l: List[A], n: Int): List[A]= {
-    @annotation.tailrec
-    def tailn(l: List[A], n: Int): List[A] = {
-      if(n <= 0 )l
-      else tailn(tail(l),n-1)
-    }
-    tailn(l,n)
+  // Nilが来ていることを例外でアラートするパターン
+  def tail2[A](list: List[A]): List[A] = list match {
+    case Nil => sys.error("This list is Nil.")
+    case Cons(_, t) => t
   }
 }
 
 val l = List(1,2,3,4)
-println(List.drop(l, 2))
-println(List.drop(l, 3))
-println(List.drop(l, 6))
-
+println(List.tail(l))
+println(List.tail(Nil))
+println()
+println(List.tail2(l))
+println(List.tail2(Nil))

@@ -17,17 +17,25 @@ object List{
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
 
-
-  def dropWhile[A](l: List[A], f: A=> Boolean):List[A] = {
-    def sub(list: List[A]): List[A] = list match {
-      case Nil => Nil
-      case Cons(h, t) if f(h) => sub(t)
-      case Cons(h, t) if !f(h) => t
+  def foldRight[A,B](as:List[A],z:B)(f:(A,B)=>B):B = {
+    as match {
+      case Nil => z
+      case Cons(x, xs) => f(x, foldRight(xs,z)(f))
     }
-    sub(l)
+  }
+
+  def sum2(ns: List[Int]) = foldRight(ns,0)(_+_)
+  def product2(ns: List[Int]) = foldRight(ns,1.0)(_ * _)
+
+  def length[A](as: List[A]): Int = {
+    foldRight(as,0)((_,y) => 1 + y)
   }
 }
 
-val l = List(1,2,3,4,10,5,6,7,8,9)
-println(List.dropWhile(l, (i:Int)=>i<10))
-println(List.dropWhile(Nil, (i:Int)=>i<10))
+val list0 = List()
+val list1 = List(1)
+val list9 = List(81,81,81,81,81,81,81,81,81)
+
+println(List.length(list0))
+println(List.length(list1))
+println(List.length(list9))

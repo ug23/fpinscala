@@ -17,22 +17,21 @@ object List{
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
 
-  // そのままNilで扱うパターン
-  def setHead[A](head:A, list: List[A]): List[A] = list match {
-    case Nil => List(head)
-    case Cons(_, tail) => Cons(head, tail)
+  // def tail[A](list: List[A]): List[A] = list match {
+  //   case Nil => sys.error("This list is Nil.")
+  //   case Cons(_, tail) => tail
+  // }
+
+  def drop[A](l: List[A], n: Int): List[A]= l match {
+    case Nil => sys.error("This list is Nil.")
+    case Cons(h,t) if n>0 => drop(t, n-1)
+    case Cons(h,t) => Cons(h,t)
   }
 
-  // Nilが来ていることを例外でアラートするパターン
-  def setHead2[A](head:A, list: List[A]): List[A] = list match {
-    case Nil => sys.error("This list is Nil.")
-    case Cons(_, tail) => Cons(head, tail)
-  }
 }
 
 val l = List(1,2,3,4)
-println(List.setHead(0,l))
-println(List.setHead(0,Nil))
-println()
-println(List.setHead2(0,l))
-println(List.setHead2(0,Nil))
+println(List.drop(l, 2))
+println(List.drop(l, 3))
+println(List.drop(l, 6))
+
